@@ -1,4 +1,4 @@
-package org.acme.drone.enums;
+package org.dcaat.drone.enums;
 
 public enum ConnectionStatus {
     ONLINE,

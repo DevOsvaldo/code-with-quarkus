@@ -1,22 +1,25 @@
-package org.acme.drone.entity;
+package org.dcaat.drone.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.acme.drone.enums.ConnectionStatus;
-import org.acme.drone.enums.DroneStatus;
+import lombok.*;
+import org.dcaat.drone.enums.ConnectionStatus;
+import org.dcaat.drone.enums.DroneStatus;
+import org.dcaat.shared.entity.BaseEntity;
 
-import java.time.LocalDateTime;
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-@Table(name="drones")
-public class Drone extends PanacheEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(
+        name = "drones",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_drone_serial_number",
+                        columnNames = "serial_number"
+                )
+        }
+)
+public class Drone extends BaseEntity {
+
     private String name;
     private String brand;
     private String model;
@@ -28,7 +31,11 @@ public class Drone extends PanacheEntity {
     @Column(unique = true)
     private String serialNumber;
     private String firmwareVersion;
-    private DroneStatus Status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DroneStatus droneStatus;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ConnectionStatus connectionStatus;
     private Integer batteryLevel;
     private Integer maxFlighTimeMinutes;
@@ -39,6 +46,6 @@ public class Drone extends PanacheEntity {
     private Double payloadCapacityGrams;
     private Boolean cameraAvailable;
     private Boolean gpsAvailable;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+
+
 }
