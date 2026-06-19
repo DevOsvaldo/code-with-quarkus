@@ -1,4 +1,4 @@
-package org.acme;
+package org.dcaat;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
